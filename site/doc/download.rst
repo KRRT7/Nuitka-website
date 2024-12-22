@@ -281,6 +281,71 @@ git, or use PyPI.
 Visit https://github.com/Nuitka/Nuitka for the Nuitka repository on
 Github.
 
+***************
+ Installation
+***************
+
+To install Nuitka, follow the instructions below for your operating system.
+
+Windows
+=======
+
+1. Open a command prompt.
+2. Run the following command to install Nuitka using pip:
+
+   .. code:: bash
+
+      python -m pip install -U nuitka
+
+macOS
+=====
+
+1. Open a terminal.
+2. Run the following command to install Nuitka using pip:
+
+   .. code:: bash
+
+      python3 -m pip install -U nuitka
+
+Linux
+=====
+
+1. Open a terminal.
+2. Run the following command to install Nuitka using pip:
+
+   .. code:: bash
+
+      python3 -m pip install -U nuitka
+
+Alternatively, you can use the package manager for your Linux distribution to install Nuitka. Refer to the "Packages" section above for specific instructions for your distribution.
+
+***************
+ Getting Started
+***************
+
+After installing Nuitka, you can start using it to compile your Python code. Here are some basic steps to get you started:
+
+1. Create a Python script, for example, `hello.py`:
+
+   .. code:: python
+
+      print("Hello, Nuitka!")
+
+2. Open a terminal or command prompt and navigate to the directory containing your script.
+3. Run the following command to compile your script with Nuitka:
+
+   .. code:: bash
+
+      python -m nuitka --standalone hello.py
+
+4. Nuitka will create a `hello.dist` directory containing the compiled executable and its dependencies. You can run the executable from this directory:
+
+   .. code:: bash
+
+      ./hello.dist/hello
+
+For more advanced usage and options, refer to the Nuitka User Manual and other documentation available on the Nuitka website.
+
 .. include:: ../variables.inc
 
 .. include:: ../dynamic.inc
