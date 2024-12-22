@@ -14,7 +14,12 @@ os.environ["PIPENV_IGNORE_VIRTUALENVS"] = "1"
 
 @task
 def virtualenv(c):
-    """create and install env"""
+    """
+    Create and install the virtual environment.
+
+    Args:
+        c (invoke.Context): The context instance (passed automatically).
+    """
     c.run(f"{sys.executable} -m pip install -U pipenv")
     c.run(f"{sys.executable} -m pipenv install --dev")
 
@@ -26,7 +31,11 @@ def virtualenv(c):
 @task
 def run(c, target="build-site"):
     """
-    :target: can be `update-docs`, `build-site`, `serve-site`
+    Run a specific target task.
+
+    Args:
+        c (invoke.Context): The context instance (passed automatically).
+        target (str, optional): The target task to run. Defaults to "build-site".
     """
     c.run(f"{sys.executable} -m pipenv run python update.py --{target}")
 

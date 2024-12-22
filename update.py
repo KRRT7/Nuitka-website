@@ -21,6 +21,13 @@ updated_branches = set()
 
 
 def _updateCheckout(branch, update):
+    """
+    Update the checkout of a specific branch.
+
+    Args:
+        branch (str): The branch to update.
+        update (bool): Whether to update the branch if it already exists.
+    """
     # We cannot use Nuitka directory change yet here.
     old_cwd = os.getcwd()
     os.chdir(os.path.dirname(__file__))
@@ -53,14 +60,32 @@ def _updateCheckout(branch, update):
 
 
 def updateNuitkaMain(update):
+    """
+    Update the main branch of Nuitka.
+
+    Args:
+        update (bool): Whether to update the branch if it already exists.
+    """
     _updateCheckout("main", update=update)
 
 
 def updateNuitkaDevelop(update):
+    """
+    Update the develop branch of Nuitka.
+
+    Args:
+        update (bool): Whether to update the branch if it already exists.
+    """
     _updateCheckout("develop", update=update)
 
 
 def importNuitka():
+    """
+    Import the Nuitka module.
+
+    Returns:
+        module: The imported Nuitka module.
+    """
     # TODO: Add an option to use other branches.
     updateNuitkaDevelop(update=False)
 
@@ -98,6 +123,9 @@ in_devcontainer = os.getenv("REMOTE_CONTAINERS_DISPLAY_SOCK") is not None
 
 
 def updateDownloadPage():
+    """
+    Update the download page with the latest releases.
+    """
     page_source = requests.get("https://nuitka.net/releases/").text
 
     tree = html.parse(StringIO(page_source))
@@ -542,6 +570,12 @@ def slugify(value):
     and converts spaces to hyphens.
 
     From Django's "django/template/defaultfilters.py".
+
+    Args:
+        value (str): The string to slugify.
+
+    Returns:
+        str: The slugified string.
     """
     if type(value) is str:
         import unidecode
@@ -552,6 +586,15 @@ def slugify(value):
 
 
 def _splitRestByChapter(lines):
+    """
+    Split reStructuredText by chapters.
+
+    Args:
+        lines (list): List of lines in the reStructuredText file.
+
+    Yields:
+        tuple: Title and lines of each chapter.
+    """
     marker = "****"
 
     section_markers = []
@@ -570,12 +613,21 @@ def _splitRestByChapter(lines):
 
 
 def updateReleasePosts():
+    """
+    Update the release posts.
+    """
     _updateReleasePosts("site/changelog/Changelog.rst")
     _updateReleasePosts("site/changelog/Changelog-1.x.rst")
     _updateReleasePosts("site/changelog/Changelog-0.x.rst")
 
 
 def _updateReleasePosts(changelog_filename):
+    """
+    Update the release posts for a specific changelog file.
+
+    Args:
+        changelog_filename (str): The filename of the changelog file.
+    """
     count = 0
 
     for title, lines in _splitRestByChapter(open(changelog_filename).readlines()):
@@ -646,6 +698,9 @@ Kay Hayen
 
 
 def updateDocs():
+    """
+    Update the documentation.
+    """
     updateReleasePosts()
 
 
@@ -653,6 +708,15 @@ _translations = ("zh_CN/", "de_DE/")
 
 
 def _getLanguageFromFilename(filename):
+    """
+    Get the language from the filename.
+
+    Args:
+        filename (str): The filename.
+
+    Returns:
+        tuple: Language and filename translation.
+    """
     filename_relative = os.path.relpath(filename, "output")
     if filename_relative.startswith(("zh_CN/", "de_DE/")):
         return filename_relative[3:5].upper(), filename_relative[6:]
@@ -661,6 +725,15 @@ def _getLanguageFromFilename(filename):
 
 
 def _getTranslationFileSet(filename):
+    """
+    Get the set of translation files for a given filename.
+
+    Args:
+        filename (str): The filename.
+
+    Returns:
+        tuple: Language and set of translation filenames.
+    """
     language, filename_translation = _getLanguageFromFilename(filename)
 
     filename_translations = {
@@ -688,6 +761,15 @@ js_order = [
 
 
 def _makeJsCombined(js_filenames):
+    """
+    Combine multiple JavaScript files into one.
+
+    Args:
+        js_filenames (list): List of JavaScript filenames.
+
+    Returns:
+        str: The combined JavaScript filename.
+    """
     js_filenames = list(js_filenames)
     if "_static/jquery.js" not in js_filenames:
         js_filenames.append("_static/jquery.js")
@@ -726,6 +808,9 @@ s.parentNode.insertBefore(ci_search, s);
 
 
 def runPostProcessing():
+    """
+    Run post-processing tasks on the generated site.
+    """
     # Compress the CSS and JS files into one file, clean up links, and
     # do other touch ups. spell-checker: ignore searchindex,searchtools
 
@@ -1131,6 +1216,9 @@ def runPostProcessing():
 
 
 def runDeploymentCommand():
+    """
+    Run the deployment command to sync the output directory with the remote server.
+    """
     # spell-checker: ignore doctrees,buildinfo,apidoc
 
     excluded = [
@@ -1164,6 +1252,9 @@ def runDeploymentCommand():
 
 
 def checkRestPages():
+    """
+    Check the reStructuredText pages with rst-lint.
+    """
     for root, _dirnames, filenames in os.walk("."):
         for filename in filenames:
             full_name = os.path.join(root, filename)
@@ -1173,6 +1264,9 @@ def checkRestPages():
 
 
 def runSphinxAutoBuild():
+    """
+    Run Sphinx autobuild to serve the site locally and rebuild on changes.
+    """
     args = [
         sys.executable,
         sys.executable,
@@ -1195,6 +1289,12 @@ def runSphinxAutoBuild():
 
 
 def getTranslationStatus():
+    """
+    Get the translation status of the site.
+
+    Returns:
+        dict: A dictionary with the translation status.
+    """
     status = {}
     for path in Path("site").rglob("*.rst"):
         translations = []
@@ -1210,6 +1310,9 @@ def getTranslationStatus():
 
 
 def updateTranslationStatusPage():
+    """
+    Update the translation status page.
+    """
     page_template = getTemplate(
         package_name=None,
         template_name="translation-status.rst.j2",
@@ -1236,6 +1339,9 @@ def updateTranslationStatusPage():
 
 
 def main():
+    """
+    Main function to handle command line options and execute the corresponding tasks.
+    """
     parser = OptionParser()
 
     parser.add_option(

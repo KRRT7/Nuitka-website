@@ -740,3 +740,74 @@ PDB
 There is no tracing of compiled functions to which to attach a debugger.
 
 .. include:: ../variables.inc
+
+***************
+ Setting Up Nuitka
+***************
+
+To set up Nuitka locally, follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Nuitka/Nuitka-website.git
+   cd Nuitka-website
+   ```
+
+2. **Set up a virtual environment:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+3. **Install the required dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Build the site:**
+   ```bash
+   python -m invoke site
+   ```
+
+5. **Serve the site locally:**
+   ```bash
+   python -m invoke run -t serve-site
+   ```
+
+***************
+ Installation Methods
+***************
+
+Nuitka can be installed using different methods depending on your operating system. Here are the available installation methods:
+
+Windows
+=======
+
+1. Open a command prompt.
+2. Run the following command to install Nuitka using pip:
+
+   ```bash
+   python -m pip install -U nuitka
+   ```
+
+macOS
+=====
+
+1. Open a terminal.
+2. Run the following command to install Nuitka using pip:
+
+   ```bash
+   python3 -m pip install -U nuitka
+   ```
+
+Linux
+=====
+
+1. Open a terminal.
+2. Run the following command to install Nuitka using pip:
+
+   ```bash
+   python3 -m pip install -U nuitka
+   ```
+
+Alternatively, you can use the package manager for your Linux distribution to install Nuitka. Refer to the "Packages" section above for specific instructions for your distribution.
